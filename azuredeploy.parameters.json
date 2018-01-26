@@ -1,0 +1,24 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "adminUsername": {
+      "value": "onapadmin"
+    },
+    "newStorageAccountName": {
+      "value": "storagevmaccess"
+    },
+    "vmSize": {
+      "value": "Standard_D16s_v3"
+    },
+    "sshPublicKey": {
+      "value": "GEN-SSH-PUB-KEY"
+    },
+    "onapDnsPrefix": {
+      "value": "GEN-UNIQUE"
+    },
+    "onapReleaseType": {
+      "value": "release-1.1.0"
+    }
+  }
+}
