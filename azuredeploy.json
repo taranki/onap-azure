@@ -52,15 +52,13 @@
         "subnetName": "[concat(variables('resourcePrefix'), 'Subnet')]",
         "publicIPAddressName": "[concat(variables('resourcePrefix'), 'PublicIP')]",
         "vmExtensionName": "[concat(variables('resourcePrefix'), 'Init')]",
-        "vmName": "[concat(variables('resourcePrefix'), 'VM')]",
         "virtualNetworkName": "[concat(variables('resourcePrefix'), 'VNET')]",
         "frontEndNSGName": "[concat(variables('resourcePrefix'), 'NSG')]",
         "vNetAddressPrefixes": "10.0.0.0/16",
         "sNetAddressPrefixes": "10.0.0.0/24",
         "vmPrivateIP": "10.0.0.5",
-        "_artifactsLocation": "https://raw.githubusercontent.com/taranki/onap-azure/master/",
-        "_extensionScript": "oom_rancher_setup.sh",
-        "_artifactsLocationSasToken": ""
+        "scriptLocation": "https://raw.githubusercontent.com/taranki/onap-azure/master/",
+        "extensionScript": "oom_rancher_setup.sh"
     },
     "resources": [
         {
@@ -173,7 +171,7 @@
         {
             "apiVersion": "2017-03-30",
             "type": "Microsoft.Compute/virtualMachines",
-            "name": "[variables('vmName')]",
+            "name": "[parameters('vmName')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
@@ -183,7 +181,7 @@
                     "vmSize": "[parameters('vmSize')]"
                 },
                 "osProfile": {
-                    "computerName": "[variables('vmName')]",
+                    "computerName": "[parameters('vmName')]",
                     "adminUsername": "[parameters('adminUsername')]",
                     "linuxConfiguration": {
                         "disablePasswordAuthentication": true,
@@ -221,47 +219,27 @@
                         }
                     ]
                 }
-            },
-            "resources": [
-                {
-                    "type": "extensions",
-                    "name": "[variables('vmExtensionName')]",
-                    "apiVersion": "2015-06-15",
-                    "location": "[resourceGroup().location]",
-                    "dependsOn": [
-                        "[resourceId('Microsoft.Compute/virtualMachines', variables('vmName'))]"
-                    ],
-                    "properties": {
-                        "publisher": "Microsoft.Azure.Extensions",
-                        "type": "CustomScript",
-                        "typeHandlerVersion": "2.0",
-                        "autoUpgradeMinorVersion": true,
-                        "settings": {
-                            "fileUris": [
-                                "[concat(variables('_artifactsLocation'), variables('_extensionScript'), variables('_artifactsLocationSasToken'))]"
-                            ]
-                        },
-                        "protectedSettings": {
-                            "commandToExecute": "[concat('./' , variables('_extensionScript'), ' -f \"', reference(variables('publicIPAddressName')).dnsSettings.fqdn, '\" -i \"', variables('vmPrivateIP'), '\" -r \"', parameters('onapReleaseType'), '\"' )]"
-                        }
-                    }
-                }
-            ]
+            }
         },
         {
             "apiVersion": "2015-06-15",
             "type": "Microsoft.Compute/virtualMachines/extensions",
-            "name": "[concat(parameters('vmName'),'/enablevmaccess')]",
+            "name": "[concat(parameters('vmName'),'/onapsetup')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
               "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
             ],
             "properties": {
-              "publisher": "Microsoft.OSTCExtensions",
-              "type": "VMAccessForLinux",
-              "typeHandlerVersion": "1.4",
+              "publisher": "ONAP.Extensions",
+              "type": "CustomScript",
+              "typeHandlerVersion": "2.0",
               "autoUpgradeMinorVersion": "true",
-              "settings": {},
+              "settings": {
+                "fileUris": [
+                    "[concat(variables('scriptLocation'), variables('extensionScript'))]"
+                ],
+                "commandToExecute": "[concat('./' , variables('extensionScript'), ' -f \"', reference(variables('publicIPAddressName')).dnsSettings.fqdn, '\" -i \"', variables('vmPrivateIP'), '\" -r \"', parameters('onapReleaseType'), '\"' )]"
+              },
               "protectedSettings": {
                 "username": "[parameters('userName')]",
                 "password": "[parameters('password')]",
