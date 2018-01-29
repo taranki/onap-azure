@@ -8,12 +8,12 @@
                 "description": "User name for the Virtual Machine."
             }
         },
-        "sshPublicKey": {
-            "type": "string",
+        "password": {
+            "type": "securestring",
             "metadata": {
-                "description": "Configure the linux machines with the SSH public key string.  Your key should include three parts, for example 'ssh-rsa AAAAB...snip...UcyupgH azureuser@linuxvm'"
+              "description": "Password for the Virtual Machine."
             }
-        },
+          },
         "vmSize": {
             "type": "string",
             "metadata": {
@@ -58,7 +58,7 @@
         "sNetAddressPrefixes": "10.0.0.0/24",
         "vmPrivateIP": "10.0.0.5",
         "scriptLocation": "https://raw.githubusercontent.com/taranki/onap-azure/master/",
-        "extensionScript": "oom_rancher_setup.sh"
+        "extensionScript": "onap_azure_setup.sh"
     },
     "resources": [
         {
@@ -101,7 +101,7 @@
                         "name": "rancher-rule",
                         "properties": {
                             "description": "Allow Rancher on port 8880",
-                            "protocol": "Any",
+                            "protocol": "*",
                             "sourcePortRange": "*",
                             "destinationPortRange": "8880",
                             "sourceAddressPrefix": "Internet",
@@ -183,17 +183,7 @@
                 "osProfile": {
                     "computerName": "[parameters('vmName')]",
                     "adminUsername": "[parameters('adminUsername')]",
-                    "linuxConfiguration": {
-                        "disablePasswordAuthentication": true,
-                        "ssh": {
-                            "publicKeys": [
-                                {
-                                    "path": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
-                                    "keyData": "[parameters('sshPublicKey')]"
-                                }
-                            ]
-                        }
-                    }
+                    "adminPassword": "[parameters('password')]"
                 },
                 "storageProfile": {
                     "imageReference": {
@@ -230,7 +220,7 @@
               "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
             ],
             "properties": {
-              "publisher": "ONAP.Extensions",
+              "publisher": "Microsoft.Azure.Extensions",
               "type": "CustomScript",
               "typeHandlerVersion": "2.0",
               "autoUpgradeMinorVersion": "true",
@@ -239,13 +229,6 @@
                     "[concat(variables('scriptLocation'), variables('extensionScript'))]"
                 ],
                 "commandToExecute": "[concat('./' , variables('extensionScript'), ' -f \"', reference(variables('publicIPAddressName')).dnsSettings.fqdn, '\" -i \"', variables('vmPrivateIP'), '\" -r \"', parameters('onapReleaseType'), '\"' )]"
-              },
-              "protectedSettings": {
-                "username": "[parameters('userName')]",
-                "password": "[parameters('password')]",
-                "reset_ssh": "[parameters('resetSSH')]",
-                "ssh_key": "[parameters('sshKey')]",
-                "remove_user": "[parameters('userNameToRemove')]"
               }
             }
           }
