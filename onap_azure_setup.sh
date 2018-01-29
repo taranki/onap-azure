@@ -64,6 +64,10 @@ token=$(echo -n "Basic $(echo -n "$pv:$sv" | base64 -w 0)" | base64 -w 0)
 mkdir .kube
 cd .kube
 curl -o config -s "https://raw.githubusercontent.com/taranki/onap-azure/master/config"
+# mod the fqdn to use https
+fqdn=${fqdn//http:/https:}
+
+# replace vars in config file template
 sed -i -e 's/_fqdn_/$fqdn/g' config
 sed -i -e 's/_tok_/$token/g' config
 
