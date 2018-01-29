@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Config
+clusters:
+- cluster:
+    api-version: v1
+    insecure-skip-tls-verify: true
+    server: "_fqdn_:8880/r/projects/1a7/kubernetes:6443"
+  name: "onap"
+contexts:
+- context:
+    cluster: "onap"
+    user: "onap"
+  name: "onap"
+current-context: "onap"
+users:
+- name: "onap"
+  user:
+    token: "_tok_"
