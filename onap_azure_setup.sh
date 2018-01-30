@@ -14,7 +14,7 @@ while getopts :f:i:r opt; do
 done
 
 
-#sudo su -
+sudo su -
 #copy onap-parmteters.yaml
 #copy oom_rancher_setup.sh
 #get prepull - curl https://jira.onap.org/secure/.... prepull_docker.sh
