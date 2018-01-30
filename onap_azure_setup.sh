@@ -22,10 +22,10 @@ done
 #chmod 777
 
 wget https://raw.githubusercontent.com/taranki/onap-azure/master/oom_rancher_setup.sh
-chmod 777 oom_rancher.sh
+chmod +x ./oom_rancher_setup.sh
 
 wget https://raw.githubusercontent.com/taranki/onap-azure/master/cd.sh
-chmod 777 cd.sh
+chmod +x ./cd.sh
 
 wget https://raw.githubusercontent.com/taranki/onap-azure/master/onap-parameters.yaml
 wget https://raw.githubusercontent.com/taranki/onap-azure/master/aai-cloud-region-put.json
@@ -53,7 +53,7 @@ sleep 5m
 
 #apikey=$(curl -X POST -H "Content-Type: application/json" -d '{"type":"apiKey","accountId":"1a1","name":"kubectl","description":"Provides workstation access to kubectl"}' "$fqdn:8880/v2-beta/apikey"
 # get config for kube from rancher
-curl -o apikey.json -s -N -X POST -H "Content-Type: application/json;x-api-csrf: AEF0B17B2F; x-api-no-challenge: true"  -d '{"type":"apiKey","accountId":"1a1","name":"kubectl","description":"Provides workstation access to kubectl"}' "$fqdn:8880/v2-beta/apikey" | jq '.id')
+curl -o apikey.json -s -N -X POST -H "Content-Type: application/json;x-api-csrf: AEF0B17B2F; x-api-no-challenge: true"  -d '{"type":"apiKey","accountId":"1a1","name":"kubectl","description":"Provides workstation access to kubectl"}' "$fqdn:8880/v2-beta/apikey"
 id=jq ".data[1].id" apikey.json
 pv=jq ".publicValue" apikey.json
 sv=jq ".secretValue" apikey.json
