@@ -35,8 +35,8 @@ wget https://raw.githubusercontent.com/taranki/onap-azure/master/aaiapisimpledem
 ./oom_rancher_setup.sh
 
 # install jq for json parsing
-sudo apt install jq
-
+#sudo apt install jq
+apt-get --assume-yes install jq
 
 
 # add onap environtment to rancher
@@ -54,9 +54,9 @@ sleep 5m
 #apikey=$(curl -X POST -H "Content-Type: application/json" -d '{"type":"apiKey","accountId":"1a1","name":"kubectl","description":"Provides workstation access to kubectl"}' "$fqdn:8880/v2-beta/apikey"
 # get config for kube from rancher
 curl -o apikey.json -s -N -X POST -H "Content-Type: application/json;x-api-csrf: AEF0B17B2F; x-api-no-challenge: true"  -d '{"type":"apiKey","accountId":"1a1","name":"kubectl","description":"Provides workstation access to kubectl"}' "$fqdn:8880/v2-beta/apikey"
-id=jq ".data[1].id" apikey.json
-pv=jq ".publicValue" apikey.json
-sv=jq ".secretValue" apikey.json
+id=$(jq ".data[1].id" apikey.json)
+pv=$(jq ".publicValue" apikey.json)
+sv=$(jq ".secretValue" apikey.json)
 
 token=$(echo -n "Basic $(echo -n "$pv:$sv" | base64 -w 0)" | base64 -w 0)
 
@@ -65,11 +65,12 @@ mkdir .kube
 cd .kube
 curl -o config -s "https://raw.githubusercontent.com/taranki/onap-azure/master/config"
 # mod the fqdn to use https
-fqdn=${fqdn//http:/https:}
+fqdns=${fqdn//http:/https:}
+fqdns=${fqdns//\//\\\/}
 
 # replace vars in config file template
-sed -i -e 's/_fqdn_/$fqdn/g' config
-sed -i -e 's/_tok_/$token/g' config
+sed -i -e "s/_fqdn_/$fqdns/g" config
+sed -i -e "s/_tok_/$token/g" config
 
 cd ..
 
