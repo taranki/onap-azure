@@ -8,7 +8,7 @@ while getopts :f:i:r opt; do
 			ip="$OPTARG"
 			;;
 		r)
-			BRANCH="$OPTARG"
+			branch="$OPTARG"
 			;;
 	esac
 done
@@ -173,6 +173,6 @@ sudo docker pull wurstmeister/kafka:latest
 sudo docker pull wurstmeister/zookeeper:latest
 sudo docker pull rancher/server:v1.6.10
 
-./cd.sh
+./cd.sh -b $branch
 
 
