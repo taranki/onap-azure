@@ -21,20 +21,18 @@ sudo su -
 #get prepull - curl https://jira.onap.org/secure/.... prepull_docker.sh
 #copy cd.sh
 #chmod 777
-wget https://wiki.onap.org/download/attachments/8227431/oom_rancher_setup_1.sh?version=6&modificationDate=1516919271000&api=v2
+wget -O oom_rancher_setup_1.sh https://wiki.onap.org/download/attachments/8227431/oom_rancher_setup_1.sh?version=6&modificationDate=1516919271000&api=v2
 #wget https://raw.githubusercontent.com/taranki/onap-azure/master/oom_rancher_setup.sh
 chmod +x ./oom_rancher_setup_1.sh
 
-wget https://wiki.onap.org/download/attachments/8227431/cd.sh?version=6&modificationDate=1516857176000&api=v2
+wget -O ch.sh https://wiki.onap.org/download/attachments/8227431/cd.sh?version=6&modificationDate=1516857176000&api=v2
 #wget https://raw.githubusercontent.com/taranki/onap-azure/master/cd.sh
-mv cd.sh\?version\=6  cd.sh
 chmod +x ./cd.sh
 
 wget https://raw.githubusercontent.com/taranki/onap-azure/master/onap-parameters.yaml
 wget https://raw.githubusercontent.com/taranki/onap-azure/master/aai-cloud-region-put.json
 wget https://raw.githubusercontent.com/taranki/onap-azure/master/aaiapisimpledemoopenecomporg.cer
 
-mv oom_rancher_setup_1.sh\?version\=6  oom_rancher_setup_1.sh
 
 # install rancher
 ./oom_rancher_setup_1.sh
