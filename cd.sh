@@ -37,7 +37,7 @@ rm -rf oom
 
 echo "pull new oom"
 git clone -b $BRANCH http://gerrit.onap.org/r/oom
-
+ 
 echo "start config pod"
 # still need to source docker variables
 source oom/kubernetes/oneclick/setenv.bash

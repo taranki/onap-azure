@@ -37,7 +37,8 @@
             "type": "string",
             "allowedValues": [
                 "master",
-                "release-1.1.0"
+                "amsterdam",
+                "release-1.0.0"
             ],
             "defaultValue": "release-1.1.0",
             "metadata": {
@@ -109,6 +110,22 @@
                             "access": "Allow",
                             "priority": 101,
                             "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "onap-ports",
+                        "properties": {
+                            "description": "Allow onap setup config traffic",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 102,
+                            "direction": "Inbound",
+                            "sourceAddressPrefixes": [],
+                            "destinationAddressPrefixes": [],
+                            "destinationPortRange": "4500,500,8080,8989,10250,30000-31000"
                         }
                     }
                 ]

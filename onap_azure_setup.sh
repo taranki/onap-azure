@@ -21,11 +21,12 @@ sudo su -
 #get prepull - curl https://jira.onap.org/secure/.... prepull_docker.sh
 #copy cd.sh
 #chmod 777
+wget https://wiki.onap.org/download/attachments/8227431/oom_rancher_setup_1.sh?version=6&modificationDate=1516919271000&api=v2
+#wget https://raw.githubusercontent.com/taranki/onap-azure/master/oom_rancher_setup.sh
+chmod +x ./oom_rancher_setup_1.sh
 
-wget https://raw.githubusercontent.com/taranki/onap-azure/master/oom_rancher_setup.sh
-chmod +x ./oom_rancher_setup.sh
-
-wget https://raw.githubusercontent.com/taranki/onap-azure/master/cd.sh
+wget https://wiki.onap.org/download/attachments/8227431/cd.sh?version=6&modificationDate=1516857176000&api=v2
+#wget https://raw.githubusercontent.com/taranki/onap-azure/master/cd.sh
 chmod +x ./cd.sh
 
 wget https://raw.githubusercontent.com/taranki/onap-azure/master/onap-parameters.yaml
@@ -33,14 +34,13 @@ wget https://raw.githubusercontent.com/taranki/onap-azure/master/aai-cloud-regio
 wget https://raw.githubusercontent.com/taranki/onap-azure/master/aaiapisimpledemoopenecomporg.cer
 
 # install rancher
-./oom_rancher_setup.sh
+./oom_rancher_setup_1.sh
 
 # install jq for json parsing
-#sudo apt install jq 
 apt-get --assume-yes install jq
 
 ##--- Heavily borrowed from vagrant project: https://github.com/rancher/vagrant
-echo Create new Envrionment for Kube and delete Default
+echo "Create new Envrionment for Kube and delete Default"
 # lookup orchestrator template id
 orchestrator=kubernetes
 
@@ -59,7 +59,7 @@ while true; do
     sleep 5
   fi
 done
-echo found template id $ENV_TEMPLATE_ID
+echo "found template id $ENV_TEMPLATE_ID"
 
 # create an environment with specified orchestrator template
 docker run \
@@ -88,7 +88,7 @@ docker run \
       "$fqdn:8880/v2-beta/projects/$DEFAULT_ENV_ID/?action=delete"
 
 
-echo Adding host to Rancher
+echo "Adding host to Rancher"
 # get our new env id
 while true; do
   ENV_ID=$(docker run \
@@ -130,7 +130,7 @@ docker run \
 sleep 5m
 
 # get config for kube from rancher
-echo creating api key for use in kube
+echo "Creating api key for use in kube"
 curl -o apikey.json -s -N -X POST -H "Content-Type: application/json; x-api-no-challenge: true"  -d '{"type":"apiKey","accountId":"1a1","name":"kubectl","description":"Provides workstation access to kubectl"}' "$fqdn:8880/v2-beta/apikey"
 
 pv=$(jq ".publicValue" apikey.json)
@@ -138,10 +138,16 @@ sv=$(jq ".secretValue" apikey.json)
 token=$(echo -n "Basic $(echo -n "$pv:$sv" | base64 -w 0)" | base64 -w 0)
 
 #create kube config
+echo "Creating kube config for $fqdn"
 cd ~/.kube
 curl -o config -s "https://raw.githubusercontent.com/taranki/onap-azure/master/config"
 # mod the fqdn to use https
+if [[ $fqdn != http* ]]
+then
+fqdns="https://${fqdn}"
+else
 fqdns=${fqdn//http:/https:}
+fi
 fqdns=${fqdns//\//\\\/}
 
 # replace vars in config file template
@@ -250,6 +256,7 @@ docker pull wurstmeister/kafka:latest
 docker pull wurstmeister/zookeeper:latest
 docker pull rancher/server:v1.6.10
 
+echo "Calling CD script"
 ./cd.sh -b $branch
 
 
