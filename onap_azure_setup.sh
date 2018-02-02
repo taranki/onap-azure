@@ -13,32 +13,31 @@ while getopts :f:i:r: opt; do
 	esac
 done
 
-##/var/lib/waagent/custom-script/download/0
+## scripts in azure run in /var/lib/waagent/custom-script/download/0
 
 sudo su -
-#copy onap-parmteters.yaml
-#copy oom_rancher_setup.sh
-#get prepull - curl https://jira.onap.org/secure/.... prepull_docker.sh
-#copy cd.sh
-#chmod 777
 wget -O oom_rancher_setup_1.sh https://wiki.onap.org/download/attachments/8227431/oom_rancher_setup_1.sh?version=6&modificationDate=1516919271000&api=v2
 #wget https://raw.githubusercontent.com/taranki/onap-azure/master/oom_rancher_setup.sh
-chmod +x ./oom_rancher_setup_1.sh
 
-wget -O ch.sh https://wiki.onap.org/download/attachments/8227431/cd.sh?version=6&modificationDate=1516857176000&api=v2
+wget -O cd.sh https://wiki.onap.org/download/attachments/8227431/cd.sh?version=6&modificationDate=1516857176000&api=v2
 #wget https://raw.githubusercontent.com/taranki/onap-azure/master/cd.sh
-chmod +x ./cd.sh
 
 wget https://raw.githubusercontent.com/taranki/onap-azure/master/onap-parameters.yaml
 wget https://raw.githubusercontent.com/taranki/onap-azure/master/aai-cloud-region-put.json
 wget https://raw.githubusercontent.com/taranki/onap-azure/master/aaiapisimpledemoopenecomporg.cer
 
+# install jq for json parsing
+apt-get --assume-yes install jq
+
+# give a chance for the files to download (30s)
+sleep 30
+
+# make the scripts executable
+chmod +x ./oom_rancher_setup_1.sh
+chmod +x ./cd.sh
 
 # install rancher
 ./oom_rancher_setup_1.sh
-
-# install jq for json parsing
-apt-get --assume-yes install jq
 
 ##--- Heavily borrowed from vagrant project: https://github.com/rancher/vagrant
 echo "Create new Envrionment for Kube and delete Default"
