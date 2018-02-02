@@ -59,6 +59,7 @@ while true; do
     sleep 5
   fi
 done
+echo found template id $ENV_TEMPLATE_ID
 
 # create an environment with specified orchestrator template
 docker run \
@@ -93,7 +94,7 @@ while true; do
   ENV_ID=$(docker run \
     -v /tmp:/tmp \
     --rm \
-    $curlprefix/curl \
+    appropriate/curl \
       -sLk \
       "$protocol://$rancher_server_ip/v2-beta/project?name=$orchestrator" | jq '.data[0].id' | tr -d '"')
 
