@@ -113,7 +113,7 @@
                         }
                     },
                     {
-                        "name": "onap-ports",
+                        "name": "onap-ports-4500",
                         "properties": {
                             "description": "Allow onap setup config traffic",
                             "protocol": "*",
@@ -124,6 +124,76 @@
                             "priority": 102,
                             "direction": "Inbound",
                             "destinationPortRange": "4500,500,8080,8989,10250,30000-31000"
+                        }
+                    },
+                    {
+                        "name": "onap-ports-500",
+                        "properties": {
+                            "description": "Allow onap setup config traffic",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 103,
+                            "direction": "Inbound",
+                            "destinationPortRange": "500"
+                        }
+                    },
+                    {
+                        "name": "onap-ports-8080",
+                        "properties": {
+                            "description": "Allow onap setup config traffic",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 104,
+                            "direction": "Inbound",
+                            "destinationPortRange": "8080"
+                        }
+                    },
+                    {
+                        "name": "onap-ports-8989",
+                        "properties": {
+                            "description": "Allow onap setup config traffic",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 105,
+                            "direction": "Inbound",
+                            "destinationPortRange": "8989"
+                        }
+                    },
+                    {
+                        "name": "onap-ports-10250",
+                        "properties": {
+                            "description": "Allow onap setup config traffic",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 106,
+                            "direction": "Inbound",
+                            "destinationPortRange": "10250"
+                        }
+                    },
+                    {
+                        "name": "onap-ports-30000",
+                        "properties": {
+                            "description": "Allow onap setup config traffic",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 107,
+                            "direction": "Inbound",
+                            "destinationPortRange": "30000-31000"
                         }
                     }
                 ]
