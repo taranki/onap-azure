@@ -22,7 +22,8 @@ wget -O oom_rancher_setup_1.sh https://wiki.onap.org/download/attachments/822743
 wget -O cd.sh https://wiki.onap.org/download/attachments/8227431/cd.sh?version=6&modificationDate=1516857176000&api=v2
 #wget https://raw.githubusercontent.com/taranki/onap-azure/master/cd.sh
 
-wget https://raw.githubusercontent.com/taranki/onap-azure/master/onap-parameters.yaml
+wget -O onap-parameters.yaml https://gerrit.onap.org/r/gitweb?p=oom.git;a=blob_plain;f=kubernetes/config/onap-parameters-sample.yaml;hb=refs/heads/amsterdam
+#wget https://raw.githubusercontent.com/taranki/onap-azure/master/onap-parameters.yaml
 wget https://raw.githubusercontent.com/taranki/onap-azure/master/aai-cloud-region-put.json
 wget https://raw.githubusercontent.com/taranki/onap-azure/master/aaiapisimpledemoopenecomporg.cer
 
@@ -38,6 +39,9 @@ chmod +x ./cd.sh
 
 # install rancher
 ./oom_rancher_setup_1.sh
+
+sleep 30
+helm init --upgrade
 
 ##--- Heavily borrowed from vagrant project: https://github.com/rancher/vagrant
 echo "Create new Envrionment for Kube and delete Default"
