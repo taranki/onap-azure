@@ -1,5 +1,5 @@
 #!/bin/bash
-while getopts :f:i:r opt; do
+while getopts :f:i:r: opt; do
 	case $opt in
 		f)
 			fqdn="$OPTARG"
@@ -13,6 +13,7 @@ while getopts :f:i:r opt; do
 	esac
 done
 
+##/var/lib/waagent/custom-script/download/0
 
 sudo su -
 #copy onap-parmteters.yaml
