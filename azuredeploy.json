@@ -123,8 +123,6 @@
                             "access": "Allow",
                             "priority": 102,
                             "direction": "Inbound",
-                            "sourceAddressPrefixes": [],
-                            "destinationAddressPrefixes": [],
                             "destinationPortRange": "4500,500,8080,8989,10250,30000-31000"
                         }
                     }
