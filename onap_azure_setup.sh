@@ -27,11 +27,14 @@ chmod +x ./oom_rancher_setup_1.sh
 
 wget https://wiki.onap.org/download/attachments/8227431/cd.sh?version=6&modificationDate=1516857176000&api=v2
 #wget https://raw.githubusercontent.com/taranki/onap-azure/master/cd.sh
+mv cd.sh\?version\=6  cd.sh
 chmod +x ./cd.sh
 
 wget https://raw.githubusercontent.com/taranki/onap-azure/master/onap-parameters.yaml
 wget https://raw.githubusercontent.com/taranki/onap-azure/master/aai-cloud-region-put.json
 wget https://raw.githubusercontent.com/taranki/onap-azure/master/aaiapisimpledemoopenecomporg.cer
+
+mv oom_rancher_setup_1.sh\?version\=6  oom_rancher_setup_1.sh
 
 # install rancher
 ./oom_rancher_setup_1.sh
