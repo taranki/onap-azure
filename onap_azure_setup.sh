@@ -96,7 +96,7 @@ while true; do
     --rm \
     appropriate/curl \
       -sLk \
-      "$protocol://$rancher_server_ip/v2-beta/project?name=$orchestrator" | jq '.data[0].id' | tr -d '"')
+      "$fqdn:8880/v2-beta/project?name=$orchestrator" | jq '.data[0].id' | tr -d '"')
 
   if [[ "$ENV_ID" == 1a* ]]; then
     break
