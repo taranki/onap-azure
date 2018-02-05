@@ -41,7 +41,6 @@ chmod +x ./cd.sh
 ./oom_rancher_setup_1.sh
 
 sleep 30
-helm init --upgrade
 
 ##--- Heavily borrowed from vagrant project: https://github.com/rancher/vagrant
 echo "Create new Envrionment for Kube and delete Default"
@@ -162,103 +161,108 @@ sed -i -e "s/_tok_/$token/g" config
 cd -
 
 # get docker images
-docker pull aaionap/gremlin-server
-docker pull aaionap/haproxy:1.1.0
-docker pull aaionap/hbase:1.2.0
-docker pull attos/dmaap:latest
-docker pull busybox
-docker pull consul:0.9.3
-docker pull docker.elastic.co/beats/filebeat:5.5.0
-docker pull docker.elastic.co/beats/filebeat:5.5.0
-docker pull docker.elastic.co/beats/filebeat:5.5.0
-docker pull docker.elastic.co/elasticsearch/elasticsearch:5.5.0
-docker pull docker.elastic.co/kibana/kibana:5.5.0
-docker pull docker.elastic.co/logstash/logstash:5.4.3
-docker pull dorowu/ubuntu-desktop-lxde-vnc
-docker pull elasticsearch:2.4.1
-docker pull mysql/mysql-server:5.6
-docker pull mysql/mysql-server:5.6
-docker pull nexus3.onap.org:10001/library/cassandra:2.1.17
-docker pull nexus3.onap.org:10001/library/mariadb:10
-docker pull nexus3.onap.org:10001/mariadb:10.1.11
-docker pull nexus3.onap.org:10001/onap/aaf/authz-service:latest
-docker pull nexus3.onap.org:10001/onap/admportal-sdnc-image:v1.2.1
-docker pull nexus3.onap.org:10001/onap/ccsdk-dgbuilder-image:v0.1.0
-docker pull nexus3.onap.org:10001/onap/ccsdk-dgbuilder-image:v0.1.0
-docker pull nexus3.onap.org:10001/onap/clamp:v1.1.0
-docker pull nexus3.onap.org:10001/onap/cli:v1.1.0
-docker pull nexus3.onap.org:10001/onap/data-router:v1.1.0
-docker pull nexus3.onap.org:10001/onap/model-loader:v1.1.0
-docker pull nexus3.onap.org:10001/onap/msb/msb_apigateway:1.0.0
-docker pull nexus3.onap.org:10001/onap/msb/msb_discovery:1.0.0
-docker pull nexus3.onap.org:10001/onap/multicloud/framework:v1.0.0
-docker pull nexus3.onap.org:10001/onap/multicloud/openstack-ocata:v1.0.0
-docker pull nexus3.onap.org:10001/onap/multicloud/openstack-windriver:v1.0.0
-docker pull nexus3.onap.org:10001/onap/multicloud/vio:v1.0.0
-docker pull nexus3.onap.org:10001/onap/oom/kube2msb
-docker pull nexus3.onap.org:10001/onap/policy/policy-db:v1.1.1
-docker pull nexus3.onap.org:10001/onap/policy/policy-drools:v1.1.1
-docker pull nexus3.onap.org:10001/onap/policy/policy-nexus:v1.1.1
-docker pull nexus3.onap.org:10001/onap/policy/policy-pe:v1.1.1
-docker pull nexus3.onap.org:10001/onap/portal-apps:v1.3.0
-docker pull nexus3.onap.org:10001/onap/portal-db:v1.3.0
-docker pull nexus3.onap.org:10001/onap/portal-wms:v1.3.0
-docker pull nexus3.onap.org:10001/onap/refrepo/postgres:latest
-docker pull nexus3.onap.org:10001/onap/refrepo:1.0-STAGING-latest
-docker pull nexus3.onap.org:10001/onap/sdnc-dmaap-listener-image:v1.2.1
-docker pull nexus3.onap.org:10001/onap/sdnc-image:v1.2.1
-docker pull nexus3.onap.org:10001/onap/sdnc-ueb-listener-image:v1.2.1
-docker pull nexus3.onap.org:10001/onap/search-data-service:v1.1.0
-docker pull nexus3.onap.org:10001/onap/sniroemulator:latest
-docker pull nexus3.onap.org:10001/onap/sparky-be:v1.1.0
-docker pull nexus3.onap.org:10001/onap/usecase-ui/usecase-ui-server:v1.0.1
-docker pull nexus3.onap.org:10001/onap/usecase-ui:v1.0.1
-docker pull nexus3.onap.org:10001/onap/vfc/catalog:v1.0.2
-docker pull nexus3.onap.org:10001/onap/vfc/emsdriver:v1.0.1
-docker pull nexus3.onap.org:10001/onap/vfc/gvnfmdriver:v1.0.1
-docker pull nexus3.onap.org:10001/onap/vfc/jujudriver:v1.0.0
-docker pull nexus3.onap.org:10001/onap/vfc/nfvo/svnfm/huawei:v1.0.2
-docker pull nexus3.onap.org:10001/onap/vfc/nfvo/svnfm/nokia:v1.0.2
-docker pull nexus3.onap.org:10001/onap/vfc/nslcm:v1.0.2
-docker pull nexus3.onap.org:10001/onap/vfc/resmanagement:v1.0.0
-docker pull nexus3.onap.org:10001/onap/vfc/vnflcm:v1.0.1
-docker pull nexus3.onap.org:10001/onap/vfc/vnfmgr:v1.0.1
-docker pull nexus3.onap.org:10001/onap/vfc/vnfres:v1.0.1
-docker pull nexus3.onap.org:10001/onap/vfc/wfengine-activiti:v1.0.0
-docker pull nexus3.onap.org:10001/onap/vfc/wfengine-mgrservice:v1.0.0
-docker pull nexus3.onap.org:10001/onap/vfc/ztesdncdriver:v1.0.0
-docker pull nexus3.onap.org:10001/onap/vfc/ztevmanagerdriver:v1.0.2
-docker pull nexus3.onap.org:10001/openecomp/aai-resources:v1.1.0
-docker pull nexus3.onap.org:10001/openecomp/aai-traversal:v1.1.0
-docker pull nexus3.onap.org:10001/openecomp/appc-image:v1.2.0
-docker pull nexus3.onap.org:10001/openecomp/dcae-collector-common-event:1.1-STAGING-latest
-docker pull nexus3.onap.org:10001/openecomp/dcae-controller:1.1-STAGING-latest
-docker pull nexus3.onap.org:10001/openecomp/dcae-dmaapbc:1.1-STAGING-latest
-docker pull nexus3.onap.org:10001/openecomp/mso:v1.1.1
-docker pull nexus3.onap.org:10001/openecomp/sdc-backend:v1.1.0
-docker pull nexus3.onap.org:10001/openecomp/sdc-cassandra:v1.1.0
-docker pull nexus3.onap.org:10001/openecomp/sdc-elasticsearch:v1.1.0
-docker pull nexus3.onap.org:10001/openecomp/sdc-frontend:v1.1.0
-docker pull nexus3.onap.org:10001/openecomp/sdc-kibana:v1.1.0
-docker pull nexus3.onap.org:10001/openecomp/testsuite:1.2-STAGING-latest
-docker pull nexus3.onap.org:10001/openecomp/vid:v1.1.1
-docker pull nginx:stable
-docker pull oomk8s/cdap:1.0.7
-docker pull oomk8s/cdap-fs:1.0.0
-docker pull oomk8s/config-init:1.1.6
-docker pull oomk8s/mariadb-client-init:1.0.0
-docker pull oomk8s/pgaas:1
-docker pull oomk8s/readiness-check:1.0.0
-docker pull oomk8s/readiness-check:1.0.0
-docker pull oomk8s/readiness-check:1.0.0
-docker pull oomk8s/readiness-check:1.0.0
-docker pull oomk8s/readiness-check:1.0.0
-docker pull oomk8s/ubuntu-init:1.0.0
-docker pull ubuntu:16.04
-docker pull ubuntu:xenial
-docker pull wurstmeister/kafka:latest
-docker pull wurstmeister/zookeeper:latest
-docker pull rancher/server:v1.6.10
+# docker pull aaionap/gremlin-server
+# docker pull aaionap/haproxy:1.1.0
+# docker pull aaionap/hbase:1.2.0
+# docker pull attos/dmaap:latest
+# docker pull busybox
+# docker pull consul:0.9.3
+# docker pull docker.elastic.co/beats/filebeat:5.5.0
+# docker pull docker.elastic.co/beats/filebeat:5.5.0
+# docker pull docker.elastic.co/beats/filebeat:5.5.0
+# docker pull docker.elastic.co/elasticsearch/elasticsearch:5.5.0
+# docker pull docker.elastic.co/kibana/kibana:5.5.0
+# docker pull docker.elastic.co/logstash/logstash:5.4.3
+# docker pull dorowu/ubuntu-desktop-lxde-vnc
+# docker pull elasticsearch:2.4.1
+# docker pull mysql/mysql-server:5.6
+# docker pull mysql/mysql-server:5.6
+# docker pull nexus3.onap.org:10001/library/cassandra:2.1.17
+# docker pull nexus3.onap.org:10001/library/mariadb:10
+# docker pull nexus3.onap.org:10001/mariadb:10.1.11
+# docker pull nexus3.onap.org:10001/onap/aaf/authz-service:latest
+# docker pull nexus3.onap.org:10001/onap/admportal-sdnc-image:v1.2.1
+# docker pull nexus3.onap.org:10001/onap/ccsdk-dgbuilder-image:v0.1.0
+# docker pull nexus3.onap.org:10001/onap/ccsdk-dgbuilder-image:v0.1.0
+# docker pull nexus3.onap.org:10001/onap/clamp:v1.1.0
+# docker pull nexus3.onap.org:10001/onap/cli:v1.1.0
+# docker pull nexus3.onap.org:10001/onap/data-router:v1.1.0
+# docker pull nexus3.onap.org:10001/onap/model-loader:v1.1.0
+# docker pull nexus3.onap.org:10001/onap/msb/msb_apigateway:1.0.0
+# docker pull nexus3.onap.org:10001/onap/msb/msb_discovery:1.0.0
+# docker pull nexus3.onap.org:10001/onap/multicloud/framework:v1.0.0
+# docker pull nexus3.onap.org:10001/onap/multicloud/openstack-ocata:v1.0.0
+# docker pull nexus3.onap.org:10001/onap/multicloud/openstack-windriver:v1.0.0
+# docker pull nexus3.onap.org:10001/onap/multicloud/vio:v1.0.0
+# docker pull nexus3.onap.org:10001/onap/oom/kube2msb
+# docker pull nexus3.onap.org:10001/onap/policy/policy-db:v1.1.1
+# docker pull nexus3.onap.org:10001/onap/policy/policy-drools:v1.1.1
+# docker pull nexus3.onap.org:10001/onap/policy/policy-nexus:v1.1.1
+# docker pull nexus3.onap.org:10001/onap/policy/policy-pe:v1.1.1
+# docker pull nexus3.onap.org:10001/onap/portal-apps:v1.3.0
+# docker pull nexus3.onap.org:10001/onap/portal-db:v1.3.0
+# docker pull nexus3.onap.org:10001/onap/portal-wms:v1.3.0
+# docker pull nexus3.onap.org:10001/onap/refrepo/postgres:latest
+# docker pull nexus3.onap.org:10001/onap/refrepo:1.0-STAGING-latest
+# docker pull nexus3.onap.org:10001/onap/sdnc-dmaap-listener-image:v1.2.1
+# docker pull nexus3.onap.org:10001/onap/sdnc-image:v1.2.1
+# docker pull nexus3.onap.org:10001/onap/sdnc-ueb-listener-image:v1.2.1
+# docker pull nexus3.onap.org:10001/onap/search-data-service:v1.1.0
+# docker pull nexus3.onap.org:10001/onap/sniroemulator:latest
+# docker pull nexus3.onap.org:10001/onap/sparky-be:v1.1.0
+# docker pull nexus3.onap.org:10001/onap/usecase-ui/usecase-ui-server:v1.0.1
+# docker pull nexus3.onap.org:10001/onap/usecase-ui:v1.0.1
+# docker pull nexus3.onap.org:10001/onap/vfc/catalog:v1.0.2
+# docker pull nexus3.onap.org:10001/onap/vfc/emsdriver:v1.0.1
+# docker pull nexus3.onap.org:10001/onap/vfc/gvnfmdriver:v1.0.1
+# docker pull nexus3.onap.org:10001/onap/vfc/jujudriver:v1.0.0
+# docker pull nexus3.onap.org:10001/onap/vfc/nfvo/svnfm/huawei:v1.0.2
+# docker pull nexus3.onap.org:10001/onap/vfc/nfvo/svnfm/nokia:v1.0.2
+# docker pull nexus3.onap.org:10001/onap/vfc/nslcm:v1.0.2
+# docker pull nexus3.onap.org:10001/onap/vfc/resmanagement:v1.0.0
+# docker pull nexus3.onap.org:10001/onap/vfc/vnflcm:v1.0.1
+# docker pull nexus3.onap.org:10001/onap/vfc/vnfmgr:v1.0.1
+# docker pull nexus3.onap.org:10001/onap/vfc/vnfres:v1.0.1
+# docker pull nexus3.onap.org:10001/onap/vfc/wfengine-activiti:v1.0.0
+# docker pull nexus3.onap.org:10001/onap/vfc/wfengine-mgrservice:v1.0.0
+# docker pull nexus3.onap.org:10001/onap/vfc/ztesdncdriver:v1.0.0
+# docker pull nexus3.onap.org:10001/onap/vfc/ztevmanagerdriver:v1.0.2
+# docker pull nexus3.onap.org:10001/openecomp/aai-resources:v1.1.0
+# docker pull nexus3.onap.org:10001/openecomp/aai-traversal:v1.1.0
+# docker pull nexus3.onap.org:10001/openecomp/appc-image:v1.2.0
+# docker pull nexus3.onap.org:10001/openecomp/dcae-collector-common-event:1.1-STAGING-latest
+# docker pull nexus3.onap.org:10001/openecomp/dcae-controller:1.1-STAGING-latest
+# docker pull nexus3.onap.org:10001/openecomp/dcae-dmaapbc:1.1-STAGING-latest
+# docker pull nexus3.onap.org:10001/openecomp/mso:v1.1.1
+# docker pull nexus3.onap.org:10001/openecomp/sdc-backend:v1.1.0
+# docker pull nexus3.onap.org:10001/openecomp/sdc-cassandra:v1.1.0
+# docker pull nexus3.onap.org:10001/openecomp/sdc-elasticsearch:v1.1.0
+# docker pull nexus3.onap.org:10001/openecomp/sdc-frontend:v1.1.0
+# docker pull nexus3.onap.org:10001/openecomp/sdc-kibana:v1.1.0
+# docker pull nexus3.onap.org:10001/openecomp/testsuite:1.2-STAGING-latest
+# docker pull nexus3.onap.org:10001/openecomp/vid:v1.1.1
+# docker pull nginx:stable
+# docker pull oomk8s/cdap:1.0.7
+# docker pull oomk8s/cdap-fs:1.0.0
+# docker pull oomk8s/config-init:1.1.6
+# docker pull oomk8s/mariadb-client-init:1.0.0
+# docker pull oomk8s/pgaas:1
+# docker pull oomk8s/readiness-check:1.0.0
+# docker pull oomk8s/readiness-check:1.0.0
+# docker pull oomk8s/readiness-check:1.0.0
+# docker pull oomk8s/readiness-check:1.0.0
+# docker pull oomk8s/readiness-check:1.0.0
+# docker pull oomk8s/ubuntu-init:1.0.0
+# docker pull ubuntu:16.04
+# docker pull ubuntu:xenial
+# docker pull wurstmeister/kafka:latest
+# docker pull wurstmeister/zookeeper:latest
+# docker pull rancher/server:v1.6.10
+
+
+# upgrade helm because we have seen issues with mismatch versions in when cd.sh runs
+echo "upgrade helm..."
+helm init --upgrade
 
 echo "Calling CD script"
 ./cd.sh -b $branch
