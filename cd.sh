@@ -10,6 +10,42 @@ Usage: $0 [PARAMs]
 EOF
 }
 
+upgrade_helm(){
+# TARANKI - adding check for helm versions and trying to upgrade to get both to same level, i.e. v2.8.0
+hclient="$(helm version | grep Client | grep -o -E '\"v[0-9,.]+\"')"
+hserver="$(helm version | grep Server | grep -o -E '\"v[0-9,.]+\"')"
+
+if [[ $(echo $hserver | grep "v" | wc -l) == 0 ]]; then
+        hserver="\"serverunknown\""
+fi
+
+if [[ $(echo $hclient | grep "v" | wc -l) == 0 ]]; then
+        hclient="\"clientunknown\""
+fi
+
+echo "Helm Client version: $hclient, Helm Server version: $hserver detected"
+
+helmupgattempt=0
+
+while [[ "$hclient" != "$hserver" ]]; do
+    # TARANKI - Add helm init --upgrade
+    if (( helmupgattempt > 9 )); then # 10 tries
+        break;
+    fi
+
+    echo "Trying to upgrade helm: $helmupgattempt"
+    helmupgattempt=$((helmupgattempt + 1))
+
+    helm init --upgrade
+    sleep 10
+    hclient="$(helm version | grep Client | grep -o -E '\"v[0-9,.]+\"')"
+    hserver="$(helm version | grep Server | grep -o -E '\"v[0-9,.]+\"')"
+    echo "Helm Client version: $hclient, Helm Server version: $hserver detected"
+done
+}
+
+
+
 deploy_onap() {
 echo "$(date)"
 echo "provide onap-parameters.yaml and aai-cloud-region-put.json"
@@ -18,6 +54,10 @@ echo "provide onap-parameters.yaml and aai-cloud-region-put.json"
 sudo sysctl -w vm.max_map_count=262144
 echo "remove existing oom"
 source oom/kubernetes/oneclick/setenv.bash
+
+# TARANKI - try to upgrade helm
+upgrade_helm();
+
 # master/beijing only - not amsterdam
 oom/kubernetes/oneclick/deleteAll.bash -n onap -y
 sleep 10

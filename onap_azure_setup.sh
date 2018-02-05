@@ -19,11 +19,11 @@ sudo su -
 wget -O oom_rancher_setup_1.sh https://wiki.onap.org/download/attachments/8227431/oom_rancher_setup_1.sh?version=6&modificationDate=1516919271000&api=v2
 #wget https://raw.githubusercontent.com/taranki/onap-azure/master/oom_rancher_setup.sh
 
-wget -O cd.sh https://wiki.onap.org/download/attachments/8227431/cd.sh?version=6&modificationDate=1516857176000&api=v2
-#wget https://raw.githubusercontent.com/taranki/onap-azure/master/cd.sh
+#wget -O cd.sh https://wiki.onap.org/download/attachments/8227431/cd.sh?version=6&modificationDate=1516857176000&api=v2
+wget https://raw.githubusercontent.com/taranki/onap-azure/master/cd.sh
 
-wget -O onap-parameters.yaml https://gerrit.onap.org/r/gitweb?p=oom.git;a=blob_plain;f=kubernetes/config/onap-parameters-sample.yaml;hb=refs/heads/amsterdam
-#wget https://raw.githubusercontent.com/taranki/onap-azure/master/onap-parameters.yaml
+#wget -O onap-parameters.yaml https://gerrit.onap.org/r/gitweb?p=oom.git;a=blob_plain;f=kubernetes/config/onap-parameters-sample.yaml;hb=refs/heads/amsterdam
+wget https://raw.githubusercontent.com/taranki/onap-azure/master/onap-parameters.yaml
 wget https://raw.githubusercontent.com/taranki/onap-azure/master/aai-cloud-region-put.json
 wget https://raw.githubusercontent.com/taranki/onap-azure/master/aaiapisimpledemoopenecomporg.cer
 
