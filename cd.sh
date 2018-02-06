@@ -78,7 +78,7 @@ git clone -b $BRANCH http://gerrit.onap.org/r/oom
 
 # TARANKI - try to upgrade helm - needs to be updated or config pod won't start
 upgrade_helm
-
+# /TARANKI
 
 echo "start config pod"
 # still need to source docker variables
@@ -90,11 +90,26 @@ cd oom/kubernetes/config
 ./createConfig.sh -n onap
 cd ../../../
 
+# TARANKI - HACKHACK:: do this again becuase Tiller is not alwyas running...need a better check for that
+upgrade_helm
+cd oom/kubernetes/config
+./createConfig.sh -n onap
+cd ../../../
+# /TARANKI
+
 # usually the prepull takes up to 15 min - however hourly builds will finish the docker pulls before the config pod is finisheed
+configpodchk=0
+
 echo "verify onap-config is 0/1 not 1/1 - as in completed - an error pod - means you are missing onap-parameters.yaml or values are not set in it."
 while [  $(kubectl get pods -n onap -a | grep config | grep 0/1 | grep Completed | wc -l) -eq 0 ]; do
+    if (( configpodchk > 19 )); then # 20 tries
+        break;
+    fi
+
+    configpodchk=$((configpodchk + 1))
+
     sleep 15
-    echo "waiting for config pod to complete"
+    echo "waiting for config pod to complete - $configpodchk"
 done
 
 echo "pre pull docker images - 15+ min"
