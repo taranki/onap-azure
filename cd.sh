@@ -55,9 +55,6 @@ sudo sysctl -w vm.max_map_count=262144
 echo "remove existing oom"
 source oom/kubernetes/oneclick/setenv.bash
 
-# TARANKI - try to upgrade helm
-upgrade_helm
-
 # master/beijing only - not amsterdam
 oom/kubernetes/oneclick/deleteAll.bash -n onap -y
 sleep 10
@@ -77,7 +74,12 @@ rm -rf oom
 
 echo "pull new oom"
 git clone -b $BRANCH http://gerrit.onap.org/r/oom
- 
+
+
+# TARANKI - try to upgrade helm - needs to be updated or config pod won't start
+upgrade_helm
+
+
 echo "start config pod"
 # still need to source docker variables
 source oom/kubernetes/oneclick/setenv.bash
