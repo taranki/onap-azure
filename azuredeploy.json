@@ -195,6 +195,20 @@
                             "direction": "Inbound",
                             "destinationPortRange": "30000-31000"
                         }
+                    },
+                    {
+                        "name": "onap-ports-30211",
+                        "properties": {
+                            "description": "Allow onap VNC Portal traffic",
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 108,
+                            "direction": "Inbound",
+                            "destinationPortRange": "30211"
+                        }
                     }
                 ]
             }

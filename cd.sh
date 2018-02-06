@@ -56,7 +56,7 @@ echo "remove existing oom"
 source oom/kubernetes/oneclick/setenv.bash
 
 # TARANKI - try to upgrade helm
-upgrade_helm();
+upgrade_helm
 
 # master/beijing only - not amsterdam
 oom/kubernetes/oneclick/deleteAll.bash -n onap -y
