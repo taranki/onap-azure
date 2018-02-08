@@ -18,33 +18,33 @@ sleep 1m
 hclient="$(helm version | grep Client | grep -o -E '\"v[0-9,.]+\"')"
 hserver="$(helm version | grep Server | grep -o -E '\"v[0-9,.]+\"')"
 
-if [[ $(echo $hserver | grep "v" | wc -l) == 0 ]]; then
-        hserver="\"serverunknown\""
-fi
+# if [[ $(echo $hserver | grep "v" | wc -l) == 0 ]]; then
+#         hserver="\"serverunknown\""
+# fi
 
-if [[ $(echo $hclient | grep "v" | wc -l) == 0 ]]; then
-        hclient="\"clientunknown\""
-fi
+# if [[ $(echo $hclient | grep "v" | wc -l) == 0 ]]; then
+#         hclient="\"clientunknown\""
+# fi
 
 echo "Helm Client version: $hclient, Helm Server version: $hserver detected"
 
-helmupgattempt=0
+# helmupgattempt=0
 
-while [[ "$hclient" != "$hserver" ]]; do
-    # TARANKI - Add helm init --upgrade
-    if (( helmupgattempt > 9 )); then # 10 tries
-        break;
-    fi
+# while [[ "$hclient" != "$hserver" ]]; do
+#     # TARANKI - Add helm init --upgrade
+#     if (( helmupgattempt > 9 )); then # 10 tries
+#         break;
+#     fi
 
-    echo "Trying to upgrade helm: $helmupgattempt"
-    helmupgattempt=$((helmupgattempt + 1))
+#     echo "Trying to upgrade helm: $helmupgattempt"
+#     helmupgattempt=$((helmupgattempt + 1))
 
-    helm init --upgrade
-    sleep 1m
-    hclient="$(helm version | grep Client | grep -o -E '\"v[0-9,.]+\"')"
-    hserver="$(helm version | grep Server | grep -o -E '\"v[0-9,.]+\"')"
-    echo "Helm Client version: $hclient, Helm Server version: $hserver detected"
-done
+#     helm init --upgrade
+#     sleep 1m
+#     hclient="$(helm version | grep Client | grep -o -E '\"v[0-9,.]+\"')"
+#     hserver="$(helm version | grep Server | grep -o -E '\"v[0-9,.]+\"')"
+#     echo "Helm Client version: $hclient, Helm Server version: $hserver detected"
+# done
 }
 
 
@@ -81,6 +81,8 @@ git clone -b $BRANCH http://gerrit.onap.org/r/oom
 
 # TARANKI - try to upgrade helm - needs to be updated or config pod won't start
 upgrade_helm
+
+sleep 1m
 # /TARANKI
 
 echo "start config pod"
@@ -93,6 +95,7 @@ cd oom/kubernetes/config
 ./createConfig.sh -n onap
 cd ../../../
 
+sleep 1m
 # usually the prepull takes up to 15 min - however hourly builds will finish the docker pulls before the config pod is finisheed
 configpodchk=0
 
@@ -113,6 +116,9 @@ echo "pre pull docker images - 15+ min"
 cp oom/kubernetes/config/prepull_docker.sh .
 chmod 777 prepull_docker.sh
 ./prepull_docker.sh
+
+sleep 1m
+
 echo "start onap pods"
 cd oom/kubernetes/oneclick
 # we are not using this for now - to avoid fail fast helm issues during development testing helm 2.5+
