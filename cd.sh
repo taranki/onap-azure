@@ -10,47 +10,16 @@ Usage: $0 [PARAMs]
 EOF
 }
 
-upgrade_helm(){
-# TARANKI - adding check for helm versions and trying to upgrade to get both to same level, i.e. v2.8.0
+deploy_onap() {
+
+echo "$(date)"
+
+# TARANKI - try to upgrade helm - needs to be updated or config pod won't start
+echo "update helm and then sleep for 1 minute: helm init --upgrade"
 helm init --upgrade
 sleep 1m
+# /TARANKI
 
-hclient="$(helm version | grep Client | grep -o -E '\"v[0-9,.]+\"')"
-hserver="$(helm version | grep Server | grep -o -E '\"v[0-9,.]+\"')"
-
-# if [[ $(echo $hserver | grep "v" | wc -l) == 0 ]]; then
-#         hserver="\"serverunknown\""
-# fi
-
-# if [[ $(echo $hclient | grep "v" | wc -l) == 0 ]]; then
-#         hclient="\"clientunknown\""
-# fi
-
-echo "Helm Client version: $hclient, Helm Server version: $hserver detected"
-
-# helmupgattempt=0
-
-# while [[ "$hclient" != "$hserver" ]]; do
-#     # TARANKI - Add helm init --upgrade
-#     if (( helmupgattempt > 9 )); then # 10 tries
-#         break;
-#     fi
-
-#     echo "Trying to upgrade helm: $helmupgattempt"
-#     helmupgattempt=$((helmupgattempt + 1))
-
-#     helm init --upgrade
-#     sleep 1m
-#     hclient="$(helm version | grep Client | grep -o -E '\"v[0-9,.]+\"')"
-#     hserver="$(helm version | grep Server | grep -o -E '\"v[0-9,.]+\"')"
-#     echo "Helm Client version: $hclient, Helm Server version: $hserver detected"
-# done
-}
-
-
-
-deploy_onap() {
-echo "$(date)"
 echo "provide onap-parameters.yaml and aai-cloud-region-put.json"
 
 # fix virtual memory for onap-log:elasticsearch under Rancher 1.6.11 - OOM-431
@@ -77,13 +46,6 @@ rm -rf oom
 
 echo "pull new oom"
 git clone -b $BRANCH http://gerrit.onap.org/r/oom
-
-
-# TARANKI - try to upgrade helm - needs to be updated or config pod won't start
-upgrade_helm
-
-sleep 1m
-# /TARANKI
 
 echo "start config pod"
 # still need to source docker variables
