@@ -13,13 +13,6 @@ EOF
 deploy_onap() {
 
 echo "$(date)"
-
-# TARANKI - try to upgrade helm - needs to be updated or config pod won't start
-echo "update helm and then sleep for 1 minute: helm init --upgrade"
-helm init --upgrade
-sleep 1m
-# /TARANKI
-
 echo "provide onap-parameters.yaml and aai-cloud-region-put.json"
 
 # fix virtual memory for onap-log:elasticsearch under Rancher 1.6.11 - OOM-431

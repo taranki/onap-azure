@@ -261,8 +261,17 @@ docker pull rancher/server:v1.6.10
 
 
 # upgrade helm because we have seen issues with mismatch versions in when cd.sh runs
-echo "upgrade helm..."
+echo "Attempting to upgrade helm..."
 helm init --upgrade
+sleep 30
+
+echo "print helm version for logs"
+helm version
+
+hclient="$(helm version | grep Client | grep -o -E '\"v[0-9,.]+\"')"
+hserver="$(helm version | grep Server | grep -o -E '\"v[0-9,.]+\"')"
+
+echo "Detected Helm versions - Client: $hclient, Server: $hserver"
 
 echo "Calling CD script"
 ./cd.sh -b $branch
